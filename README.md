@@ -80,6 +80,8 @@ App runs at `http://localhost:5173`
 
 - User registration and login
 - Property listing with filters (location, BHK, type, price range)
-- Create, edit, and delete properties
+- Create, edit, and delete properties (agent only)
+- Agents can view properties they listed
 - Image upload for properties
 - Pagination for property listings
+- Users can submit enquiries and agents can view enquiries received on properties they listed
