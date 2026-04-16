@@ -20,6 +20,8 @@ const Navbar = () => {
   const isMyListingsActive =
     location.pathname === "/properties" && ownerParam === "me";
   const isCreatePropertyActive = location.pathname === "/create-property";
+  const isLoginActive = location.pathname === "/login";
+  const isRegisterActive = location.pathname === "/register";
 
   const handleLogout = async () => {
     try {
@@ -81,14 +83,22 @@ const Navbar = () => {
           <>
             <button
               onClick={() => navigate("/login")}
-              className="text-gray-700 hover:text-orange-500"
+              className={`px-3 py-2 rounded-lg ${
+                isLoginActive
+                  ? "bg-orange-500 text-white"
+                  : "text-gray-700 hover:text-orange-500"
+              }`}
             >
               Login
             </button>
 
             <button
               onClick={() => navigate("/register")}
-              className="bg-orange-500 text-white px-4 py-1 rounded-lg hover:bg-orange-600"
+              className={`px-3 py-2 rounded-lg ${
+                isRegisterActive
+                  ? "bg-orange-500 text-white"
+                  : "text-gray-700 hover:text-orange-500"
+              }`}
             >
               Register
             </button>

@@ -22,11 +22,6 @@ const Footer = () => {
                   Browse Properties
                 </a>
               </li>
-              <li>
-                <a href="/register" className="hover:text-orange-500">
-                  Register Now!
-                </a>
-              </li>
             </ul>
           </div>
 
