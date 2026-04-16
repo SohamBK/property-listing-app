@@ -26,6 +26,11 @@ const Home = () => {
             placeholder="Enter location..."
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
             className="flex-1 px-4 py-3 outline-none"
           />
           <button

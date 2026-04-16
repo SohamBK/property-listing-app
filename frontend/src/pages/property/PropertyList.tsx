@@ -104,6 +104,11 @@ const PropertyList = () => {
             value={filters.location}
             className="flex-1 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500"
             onChange={(e) => handleFilterChange("location", e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
           />
 
           {/* BHK */}
@@ -112,6 +117,11 @@ const PropertyList = () => {
             value={filters.bhk}
             className="w-24 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500"
             onChange={(e) => handleFilterChange("bhk", e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
           />
 
           {/* Type */}
@@ -132,6 +142,11 @@ const PropertyList = () => {
             value={filters.minPrice}
             className="w-36 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500"
             onChange={(e) => handleFilterChange("minPrice", e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
           />
 
           {/* Max Price */}
@@ -141,6 +156,11 @@ const PropertyList = () => {
             value={filters.maxPrice}
             className="w-36 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500"
             onChange={(e) => handleFilterChange("maxPrice", e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
           />
 
           {/* Search */}
