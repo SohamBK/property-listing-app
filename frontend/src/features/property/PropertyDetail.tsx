@@ -231,7 +231,10 @@ const PropertyDetail = () => {
           <p className="text-gray-700 mb-4">📍 {property.location}</p>
 
           {/* Description */}
-          <p className="text-gray-600 mb-6">{property.description}</p>
+          <div
+            className="text-gray-600 mb-6 prose prose-sm max-w-none"
+            dangerouslySetInnerHTML={{ __html: property.description }}
+          />
 
           {isAuthenticated &&
             user?.role === "agent" &&

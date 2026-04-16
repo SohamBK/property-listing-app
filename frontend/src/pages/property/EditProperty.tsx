@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ReactQuill from "react-quill-new";
 import { type RootState } from "../../app/store";
 import {
   getPropertyByIdApi,
@@ -36,6 +37,27 @@ interface FormErrors {
 }
 
 const createUUID = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["link"],
+    ["clean"],
+  ],
+};
+
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "link",
+];
 
 const EditProperty = () => {
   const navigate = useNavigate();
@@ -328,20 +350,29 @@ const EditProperty = () => {
               </label>
             </div>
 
-            <label className="space-y-2">
+            <div className="space-y-2">
               <span className="text-sm text-gray-700">Description</span>
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={handleInputChange}
-                rows={5}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
-                placeholder="Describe the property"
-              />
+              <div className="bg-white overflow-visible">
+                <ReactQuill
+                  theme="snow"
+                  value={form.description}
+                  onChange={(value) => {
+                    setForm((current) => ({ ...current, description: value }));
+                    setErrors((current) => ({
+                      ...current,
+                      description: undefined,
+                      global: undefined,
+                    }));
+                  }}
+                  modules={modules}
+                  formats={formats}
+                  className="h-40 mb-12"
+                />
+              </div>
               {errors.description && (
                 <p className="text-sm text-red-500">{errors.description}</p>
               )}
-            </label>
+            </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <label className="space-y-2">

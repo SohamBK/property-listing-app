@@ -1,5 +1,20 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 .input {
   @apply w-full mb-3 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500;
+}
+
+/* Quill Editor Fixes */
+.ql-toolbar.ql-snow {
+  z-index: 100 !important;
+  position: relative;
+}
+
+.ql-picker {
+  z-index: 101 !important;
+}
+
+.ql-editor {
+  min-height: 150px;
 }
