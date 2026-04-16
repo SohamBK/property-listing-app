@@ -9,6 +9,7 @@ import {
   getEnquiriesByPropertyApi,
 } from "../../features/property/propertyApi";
 import { type Enquiry } from "../../types/enquiry";
+import Footer from "../../components/common/Footer";
 
 const BASE_URL = "http://localhost:5000";
 
@@ -202,228 +203,235 @@ const PropertyDetail = () => {
     : "https://plus.unsplash.com/premium_vector-1724653697938-cc4868490f8f";
 
   return (
-    <div className="bg-gray-100 min-h-screen py-6">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow overflow-hidden">
-        {/* Image */}
-        <img
-          src={imageUrl}
-          alt={property.title}
-          className="w-full h-100 object-cover"
-        />
-
-        {/* Content */}
-        <div className="p-6">
-          {/* Title */}
-          <h1 className="text-2xl font-semibold mb-2">{property.title}</h1>
-
-          <p className="text-gray-500 mb-4">{property.subtitle}</p>
-
-          {/* Price + BHK */}
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-orange-500 text-xl font-semibold">
-              ₹ {config?.price}
-            </span>
-            <span className="text-gray-600">{config?.bhk} BHK</span>
-            <span className="text-gray-600">{config?.unitSize}</span>
-          </div>
-
-          {/* Location */}
-          <p className="text-gray-700 mb-4">📍 {property.location}</p>
-
-          {/* Description */}
-          <div
-            className="text-gray-600 mb-6 prose prose-sm max-w-none"
-            dangerouslySetInnerHTML={{ __html: property.description }}
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <div className="flex-1 py-6">
+        <div className="max-w-5xl mx-auto bg-white rounded-xl shadow overflow-hidden">
+          {/* Image */}
+          <img
+            src={imageUrl}
+            alt={property.title}
+            className="w-full h-100 object-cover"
           />
 
-          {isAuthenticated &&
-            user?.role === "agent" &&
-            (property.agentId === user.id ||
-              property.agent?.id === user.id) && (
-              <div className="flex flex-wrap items-center gap-3 mb-6">
-                <button
-                  onClick={() => navigate(`/edit-property/${property.id}`)}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={handleDelete}
-                  disabled={deleteLoading}
-                  className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600 disabled:opacity-60"
-                >
-                  {deleteLoading ? "Deleting..." : "Delete"}
-                </button>
-                {deleteError && (
-                  <span className="text-sm text-red-500">{deleteError}</span>
-                )}
-              </div>
-            )}
+          {/* Content */}
+          <div className="p-6">
+            {/* Title */}
+            <h1 className="text-2xl font-semibold mb-2">{property.title}</h1>
 
-          {/* Agent Enquiries Table or User Enquiry Form */}
-          <div className="border-t mt-6 pt-6">
-            {isPropertyOwner ? (
-              // AGENT VIEW - Show enquiries table
-              <div>
-                <h3 className="text-lg font-semibold mb-4">
-                  Enquiries Received
-                </h3>
+            <p className="text-gray-500 mb-4">{property.subtitle}</p>
 
-                {enquiriesError && (
-                  <p className="text-red-500 text-sm mb-4">{enquiriesError}</p>
-                )}
+            {/* Price + BHK */}
+            <div className="flex items-center gap-4 mb-4">
+              <span className="text-orange-500 text-xl font-semibold">
+                ₹ {config?.price}
+              </span>
+              <span className="text-gray-600">{config?.bhk} BHK</span>
+              <span className="text-gray-600">{config?.unitSize}</span>
+            </div>
 
-                {enquiriesLoading ? (
-                  <p className="text-gray-600">Loading enquiries...</p>
-                ) : enquiries.length === 0 ? (
-                  <p className="text-gray-500">
-                    No enquiries received yet for this property.
-                  </p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-gray-100 border-b">
-                        <tr>
-                          <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                            Name
-                          </th>
-                          <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                            Email
-                          </th>
-                          <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                            Phone
-                          </th>
-                          <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                            Message
-                          </th>
-                          <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                            Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {enquiries.map((enquiry) => (
-                          <tr
-                            key={enquiry.id}
-                            className="border-b hover:bg-gray-50"
-                          >
-                            <td className="px-4 py-3">{enquiry.name}</td>
-                            <td className="px-4 py-3 text-blue-600">
-                              <a href={`mailto:${enquiry.email}`}>
-                                {enquiry.email}
-                              </a>
-                            </td>
-                            <td className="px-4 py-3 text-blue-600">
-                              <a href={`tel:${enquiry.phone}`}>
-                                {enquiry.phone}
-                              </a>
-                            </td>
-                            <td className="px-4 py-3 max-w-xs truncate">
-                              {enquiry.message || "—"}
-                            </td>
-                            <td className="px-4 py-3 text-gray-600 text-xs">
-                              {formatDate(enquiry.createdAt)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
-            ) : (
-              // NON-AGENT VIEW - Show enquiry form
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Enquire Now</h3>
+            {/* Location */}
+            <p className="text-gray-700 mb-4">📍 {property.location}</p>
 
-                {errors.global && (
-                  <p className="text-red-500 text-sm mb-4">{errors.global}</p>
-                )}
+            {/* Description */}
+            <div
+              className="text-gray-600 mb-6 prose prose-sm max-w-none"
+              dangerouslySetInnerHTML={{ __html: property.description }}
+            />
 
-                {successMsg && (
-                  <p className="text-green-600 mb-3">{successMsg}</p>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-1">
-                    <input
-                      name="name"
-                      placeholder="Your Name"
-                      value={form.name}
-                      className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
-                        errors.name ? "border-red-500" : ""
-                      }`}
-                      onChange={handleChange}
-                    />
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-1">
-                    <input
-                      name="email"
-                      placeholder="Email"
-                      value={form.email}
-                      className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
-                        errors.email ? "border-red-500" : ""
-                      }`}
-                      onChange={handleChange}
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.email}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <input
-                      name="phone"
-                      placeholder="Phone"
-                      value={form.phone}
-                      className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
-                        errors.phone ? "border-red-500" : ""
-                      }`}
-                      onChange={handleChange}
-                    />
-                    {errors.phone && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.phone}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <textarea
-                      name="message"
-                      placeholder="Message"
-                      value={form.message}
-                      className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 h-24 ${
-                        errors.message ? "border-red-500" : ""
-                      }`}
-                      onChange={handleChange}
-                    />
-                    {errors.message && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.message}
-                      </p>
-                    )}
-                  </div>
+            {isAuthenticated &&
+              user?.role === "agent" &&
+              (property.agentId === user.id ||
+                property.agent?.id === user.id) && (
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <button
+                    onClick={() => navigate(`/edit-property/${property.id}`)}
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    disabled={deleteLoading}
+                    className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600 disabled:opacity-60"
+                  >
+                    {deleteLoading ? "Deleting..." : "Delete"}
+                  </button>
+                  {deleteError && (
+                    <span className="text-sm text-red-500">{deleteError}</span>
+                  )}
                 </div>
+              )}
 
-                <button
-                  onClick={handleSubmit}
-                  disabled={submitting}
-                  className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 disabled:opacity-60"
-                >
-                  {submitting ? "Submitting..." : "Submit Enquiry"}
-                </button>
-              </div>
-            )}
+            {/* Agent Enquiries Table or User Enquiry Form */}
+            <div className="border-t mt-6 pt-6">
+              {isPropertyOwner ? (
+                // AGENT VIEW - Show enquiries table
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Enquiries Received
+                  </h3>
+
+                  {enquiriesError && (
+                    <p className="text-red-500 text-sm mb-4">
+                      {enquiriesError}
+                    </p>
+                  )}
+
+                  {enquiriesLoading ? (
+                    <p className="text-gray-600">Loading enquiries...</p>
+                  ) : enquiries.length === 0 ? (
+                    <p className="text-gray-500">
+                      No enquiries received yet for this property.
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead className="bg-gray-100 border-b">
+                          <tr>
+                            <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                              Name
+                            </th>
+                            <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                              Email
+                            </th>
+                            <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                              Phone
+                            </th>
+                            <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                              Message
+                            </th>
+                            <th className="text-left px-4 py-3 font-semibold text-gray-700">
+                              Date
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {enquiries.map((enquiry) => (
+                            <tr
+                              key={enquiry.id}
+                              className="border-b hover:bg-gray-50"
+                            >
+                              <td className="px-4 py-3">{enquiry.name}</td>
+                              <td className="px-4 py-3 text-blue-600">
+                                <a href={`mailto:${enquiry.email}`}>
+                                  {enquiry.email}
+                                </a>
+                              </td>
+                              <td className="px-4 py-3 text-blue-600">
+                                <a href={`tel:${enquiry.phone}`}>
+                                  {enquiry.phone}
+                                </a>
+                              </td>
+                              <td className="px-4 py-3 max-w-xs truncate">
+                                {enquiry.message || "—"}
+                              </td>
+                              <td className="px-4 py-3 text-gray-600 text-xs">
+                                {formatDate(enquiry.createdAt)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // NON-AGENT VIEW - Show enquiry form
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Enquire Now</h3>
+
+                  {errors.global && (
+                    <p className="text-red-500 text-sm mb-4">{errors.global}</p>
+                  )}
+
+                  {successMsg && (
+                    <p className="text-green-600 mb-3">{successMsg}</p>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-1">
+                      <input
+                        name="name"
+                        placeholder="Your Name"
+                        value={form.name}
+                        className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
+                          errors.name ? "border-red-500" : ""
+                        }`}
+                        onChange={handleChange}
+                      />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.name}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="md:col-span-1">
+                      <input
+                        name="email"
+                        placeholder="Email"
+                        value={form.email}
+                        className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
+                          errors.email ? "border-red-500" : ""
+                        }`}
+                        onChange={handleChange}
+                      />
+                      {errors.email && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <input
+                        name="phone"
+                        placeholder="Phone"
+                        value={form.phone}
+                        className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 ${
+                          errors.phone ? "border-red-500" : ""
+                        }`}
+                        onChange={handleChange}
+                      />
+                      {errors.phone && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phone}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <textarea
+                        name="message"
+                        placeholder="Message"
+                        value={form.message}
+                        className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-orange-500 h-24 ${
+                          errors.message ? "border-red-500" : ""
+                        }`}
+                        onChange={handleChange}
+                      />
+                      {errors.message && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 disabled:opacity-60"
+                  >
+                    {submitting ? "Submitting..." : "Submit Enquiry"}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
