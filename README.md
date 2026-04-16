@@ -37,13 +37,7 @@ propertist-mern-task/
 
 ### 1. Database Setup
 
-Create a `.env` file in the `backend/` directory:
-
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/propertist"
-JWT_SECRET="your-secret-key"
-PORT=5000
-```
+Create a `.env` file as per `.env.example` file in the `backend/` directory:
 
 Run migrations and seed data:
 
