@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//////////////////////
+// ENUMS
+//////////////////////
+
+enum Role {
+  agent
+  user
+}
+
+enum Expertise {
+  NEW_LAUNCH
+  RENT
+  RESALE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum PropertyType {
+  RESIDENTIAL
+  COMMERCIAL
+}
+
+enum ListingType {
+  SALE
+  RESALE
+  NEW_LAUNCH
+}
+
+//////////////////////
+// MODELS
+//////////////////////
+
+model User {
+  id            String     @id @default(uuid())
+  name          String
+  email         String     @unique
+  phone         String
+  password      String
+  role          Role
+
+  // Agent-specific fields
+  businessName  String?
+  address       String?
+  location      String?
+  expertise     Expertise?
+
+  // Relations
+  properties    Property[]
+  enquiries     Enquiry[]
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Property {
+  id              String                   @id @default(uuid())
+  title           String
+  subtitle        String?
+  description     String
+
+  type            PropertyType
+  listingType     ListingType
+
+  location        String
+  possessionDate  DateTime?
+
+  // Relations
+  agentId         String
+  agent           User                     @relation(fields: [agentId], references: [id])
+
+  configurations  PropertyConfiguration[]
+  media           PropertyMedia[]
+  enquiries       Enquiry[]
+
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+
+  @@index([location])
+  @@index([type])
+  @@index([listingType])
+}
+
+model PropertyConfiguration {
+  id          String    @id @default(uuid())
+
+  bhk         Int       // 2, 3, 4
+  price       Float
+  unitSize    String
+
+  propertyId  String
+  property    Property  @relation(fields: [propertyId], references: [id])
+
+  createdAt   DateTime  @default(now())
+
+  @@index([bhk])
+  @@index([price])
+}
+
+model PropertyMedia {
+  id          String     @id @default(uuid())
+  propertyId  String
+  property    Property   @relation(fields: [propertyId], references: [id])
+
+  url         String
+  type        MediaType
+
+  isFeatured  Boolean    @default(false)
+  order       Int?
+
+  createdAt   DateTime   @default(now())
+
+  @@index([propertyId])
+}
+
+model Enquiry {
+  id          String     @id @default(uuid())
+
+  name        String
+  email       String
+  phone       String
+  message     String?
+
+  propertyId  String
+  property    Property   @relation(fields: [propertyId], references: [id])
+
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime   @default(now())
+
+  @@index([propertyId])
+}
