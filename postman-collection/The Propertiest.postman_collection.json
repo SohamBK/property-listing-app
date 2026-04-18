@@ -1,0 +1,499 @@
+{
+  "info": {
+    "_postman_id": "ea6cdffb-47c2-4942-9093-3ac55b239383",
+    "name": "The Propertiest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "35191631"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"neha.gupta@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"alice.agent@example.com\",\r\n    \"password\": \"AgentPass1!\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// {\r\n//   \"name\": \"Soham Test\",\r\n//   \"email\": \"soh@example.com\",\r\n//   \"phone\": \"+91-9876543210\",\r\n//   \"password\": \"password123\",\r\n//   \"role\": \"user\"\r\n// }\r\n\r\n{\r\n  \"name\": \"Vikram Sharma\",\r\n  \"email\": \"vikram@example.com\",\r\n  \"phone\": \"+91-9876543210\",\r\n  \"password\": \"password123\",\r\n  \"role\": \"agent\",\r\n  \"businessName\": \"VikramRealty\",\r\n  \"address\": \"123 MG Road, Bengaluru\",\r\n  \"location\": \"Bengaluru\",\r\n  \"expertise\": \"NEW_LAUNCH\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Authentication and Authorization check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health/protected",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health",
+                "protected"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Add Properties",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "accessToken=YOUR_ACCESS_TOKEN; refreshToken=YOUR_REFRESH_TOKEN",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "type": "text",
+                  "key": "title",
+                  "value": "Kalptaru"
+                },
+                {
+                  "type": "text",
+                  "key": "subtitle",
+                  "value": "Prime location in Mumbai"
+                },
+                {
+                  "type": "text",
+                  "key": "description",
+                  "value": "Beautiful apartment with modern amenities..."
+                },
+                {
+                  "type": "text",
+                  "key": "type",
+                  "value": "RESIDENTIAL"
+                },
+                {
+                  "type": "text",
+                  "key": "listingType",
+                  "value": "NEW_LAUNCH"
+                },
+                {
+                  "type": "text",
+                  "key": "location",
+                  "value": "Mumbai"
+                },
+                {
+                  "type": "text",
+                  "key": "possessionDate",
+                  "value": "2025-12-31"
+                },
+                {
+                  "type": "text",
+                  "key": "configurations",
+                  "value": "[{\"bhk\":2,\"price\":5000000,\"unitSize\":\"800 sq ft\"}]"
+                },
+                {
+                  "type": "text",
+                  "key": "mediaMeta",
+                  "value": "[{\"isFeatured\":true,\"order\":1}]"
+                },
+                {
+                  "type": "file",
+                  "key": "images",
+                  "src": "/C:/Users/soham/Downloads/5a8dcf3d-dab0-44fd-980b-009fd8973f2a.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/properties",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "properties"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "accessToken=YOUR_ACCESS_TOKEN; refreshToken=YOUR_REFRESH_TOKEN",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "type": "text",
+                  "key": "title",
+                  "value": "Updated Luxury Apartment"
+                },
+                {
+                  "type": "text",
+                  "key": "description",
+                  "value": "Updated description with better amenities"
+                },
+                {
+                  "type": "text",
+                  "key": "location",
+                  "value": "Mumbai Andheri"
+                },
+                {
+                  "type": "text",
+                  "key": "type",
+                  "value": "RESIDENTIAL"
+                },
+                {
+                  "type": "text",
+                  "key": "listingType",
+                  "value": "RESALE"
+                },
+                {
+                  "type": "text",
+                  "key": "configurations",
+                  "value": "[{\"bhk\":2,\"price\":4500000,\"unitSize\":\"1000 sq ft\"}]"
+                },
+                {
+                  "type": "file",
+                  "key": "images",
+                  "src": "/C:/Users/soham/Downloads/5a8dcf3d-dab0-44fd-980b-009fd8973f2a.jpg"
+                },
+                {
+                  "type": "file",
+                  "key": "images",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/properties/852b69c7-bf69-4b1f-adaf-6f211b270372",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "properties",
+                "852b69c7-bf69-4b1f-adaf-6f211b270372"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Property",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "accessToken=YOUR_ACCESS_TOKEN; refreshToken=YOUR_REFRESH_TOKEN",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/properties/852b69c7-bf69-4b1f-adaf-6f211b270372",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "properties",
+                "852b69c7-bf69-4b1f-adaf-6f211b270372"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Properties",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNmJjMmEyNy02NzZiLTRjM2MtYmFjMS1hMmQ2MTliNGY0OTkiLCJyb2xlIjoiYWdlbnQiLCJpYXQiOjE3NzYyODA3NzQsImV4cCI6MTc3NjI4MTY3NH0.s8W97wieODfapPHM5yNikFYedZTHlht46Tmmu5D1w2I",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/properties",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "properties"
+              ],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "mumbai",
+                  "disabled": true
+                },
+                {
+                  "key": "bhk",
+                  "value": "3",
+                  "disabled": true
+                },
+                {
+                  "key": "type",
+                  "value": "RESIDENTIAL",
+                  "disabled": true
+                },
+                {
+                  "key": "owner",
+                  "value": "me",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "4000000",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "4500000",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get property by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/properties/5c87732f-bda3-432b-83eb-a8d631f5a78a",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "properties",
+                "5c87732f-bda3-432b-83eb-a8d631f5a78a"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Enquiries",
+      "item": [
+        {
+          "name": "Add enquiries",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"phone\": \"+1234567890\",\r\n  \"message\": \"I'm interested in this property\",\r\n  \"propertyId\": \"ebaa2376-abf3-4a9c-8343-0b414e2482e5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/enquiries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "enquiries"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Enquiries for a property",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"phone\": \"+1234567890\",\r\n  \"message\": \"I'm interested in this property\",\r\n  \"propertyId\": \"ebaa2376-abf3-4a9c-8343-0b414e2482e5\"\r\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/enquiries/property/e05d3871-efa9-4e35-9423-3f32782ee6cc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "enquiries",
+                "property",
+                "e05d3871-efa9-4e35-9423-3f32782ee6cc"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
