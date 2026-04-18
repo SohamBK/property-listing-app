@@ -1,4 +1,4 @@
-# Propertist
+# Property App
 
 A full-stack property management application built with the MERN stack (MongoDB/PostgreSQL, Express, React, Node.js).
 
